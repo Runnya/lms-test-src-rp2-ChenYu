@@ -1,0 +1,83 @@
+<!-- Task.11 よくある質問画面の新規作成 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	th:replace="~{common/login-layout :: layout(~{::title},~{::body/content()})}">
+<head>
+<meta charset="utf-8">
+<title>よくある質問 | LMS</title>
+</head>
+<body>
+
+	<h2>よくある質問</h2>
+	<div class="well bs-component">
+
+		<form th:method="get" th:action="@{/faq}" class="form-horizontal" th:object="${faqSearchForm}">
+			<fieldset>
+				<legend>キーワード検索</legend>
+				<div class="form-group">
+					<label for="date" class="col-lg-2 control-label">キーワード</label>
+					<div class="col-lg-10">
+						<!-- Task.12 検索キーワードの削除(id属性を追加) -->
+						<input type="text" th:field="*{keyword}" class="form-control" id="form" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<input type="submit" value="検索" class="btn btn-primary" />
+						<!-- Task.12 検索キーワードの削除 -->
+						<input type="button" value="クリア" class="btn btn-primary" onclick="$('#form').val('');" />
+					</div>
+				</div>
+			</fieldset>
+		</form>
+
+		<fieldset>
+			<legend>カテゴリ検索</legend>
+			<ul th:each="faqCategory : ${faqCategoryList}">
+				<li><a th:href="@{/faq(frequentlyAskedQuestionCategoryId=${faqCategory.frequentlyAskedQuestionCategoryId})}">
+					[[${faqCategory.frequentlyAskedQuestionCategoryName}]]</a>
+				</li>
+			</ul>
+		</fieldset>
+
+	</div>
+
+	<div class="form-group">
+		<div class="col-lg-12">
+			<table class="table table-hover sortabletable">
+				<thead>
+					<tr>
+						<th>検索結果</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="faq, status: ${faqList}">
+						<td>
+							<dl th:id="|question-h${status.index}|">
+								<dt class="mb10" style="cursor: pointer">
+									<span class="text-primary mr10">Q.</span><span th:text="${faq.question}"></span>
+								</dt>
+								<dd th:id="|answer-h${status.index}|" class="dn">
+									<span class="text-warning mr10">A.</span> <span th:text="${faq.answer}"></span>
+								</dd>
+							</dl>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		$(function() {
+			$('[id^=question-h]').click(function() {
+				if ($(this).children('[id^=answer-h]').attr('class') === 'dn') {
+					$(this).children('[id^=answer-h]').attr('class', 'fs18');
+				} else {
+					$(this).children('[id^=answer-h]').attr('class', 'dn');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
