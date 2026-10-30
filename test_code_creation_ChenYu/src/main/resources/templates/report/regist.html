@@ -21,6 +21,7 @@
 						<div class="col-sm-6">
 							<input type="text" th:id="|intFieldName_${i}|" th:name="|intFieldNameArray[${i}]|" class="form-control" 
 								th:value="*{intFieldNameArray[__${i}__]}" th:errorclass="errorInput" maxlength="100"  />
+							<span th:errors="*{intFieldNameArray[__${i}__]}" class="help-inline error"></span>
 						</div>
 						<label for="intFieldValue_${i}" class="col-sm-1 control-label">理解度</label>
 						<div class="col-sm-2">
@@ -29,6 +30,7 @@
 								<option th:each="j : *{#numbers.sequence(1, intelligibilityNum)}" th:name="|intFieldValue_$[i]|"
 									th:value="${j}" th:selected="*{intFieldValueArray[__${i}__]} == ${j}">[[${j}]]</option>
 							</select>
+							<span th:errors="*{intFieldValueArray[__${i}__]}" class="help-inline error"></span>
 						</div>
 					</div>
 				</fieldset>
@@ -53,6 +55,7 @@
 						<div class="col-lg-10">
 							<textarea class="form-control" rows="3" th:id="|content_${stat.index}|" th:name="|contentArray[${stat.index}]|" 
 								th:errorclass="errorInput">[[*{contentArray[__${stat.index}__]}]]</textarea>
+							<span th:errors="*{contentArray[__${stat.index}__]}" class="help-inline error"></span>
 						</div>
 					</div>
 				</fieldset>
